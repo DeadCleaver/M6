@@ -8,10 +8,10 @@ const NavBar = props => {
     <Navbar expand="lg" className="blog-navbar" fixed="top">
       <Container className="justify-content-between">
         <Navbar.Brand as={Link} to="/">
-          <img className="blog-navbar-brand" alt="logo" src={logo} />
+          <img className="blog-navbar-brand" alt="logo" src={logo} style={{width: "100px"}} />
         </Navbar.Brand>
 
-        <Button as={Link} to="/new" className="blog-navbar-add-button bg-dark" size="lg">
+        <Button as={Link} to="/new" className="blog-navbar-add-button bg-dark" size="sm">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
