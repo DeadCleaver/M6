@@ -35,7 +35,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" exact element={<Home posts={posts}/>} />
-        <Route path="/blog/:id" element={<Blog />} />
+        <Route path="/blog/:id" element={<Blog posts={posts}/>} />
         <Route path="/new" element={<NewBlogPost />} />
       </Routes>
       <Footer />

@@ -1,0 +1,48 @@
+• GET /authors → ritorna la lista degli autori
+• GET /authors/123 → ritorna il singolo autore
+• POST /authors → crea un nuovo
+• PUT /authors/123 → modifica l'autore con l'id associato
+• DELETE /authors/123 → cancella l'autore con l'id associato
+• Connessione del backend al frontend
+• Nota: Se vuoi connettere il backend e frontend oggi dovrai installare il pacchetto 'cors'
+con il comando 'npm i cors'
+Dovrai quindi importarlo con un import statement
+• Puoi usare cors col seguente comando 'server.use (cors ())'
+• Impareremo cos'è CORS prossimamente
+
+• Se non lo hai fatto, implementa le funzionalita' di PUT e DELETE per gli autori
+• Sviluppa le operazioni CRUD per i blog post (struttura nelle slide successive).
+• La persistenza dei dati dev'essere garantita dall'uso di MongoDB
+• A le query e i body dovranno essere validati
+• NOTA: Ricorda di installare il pacchetto 'cors' con 'npm i cors', e di usarlo con
+'server.use(cors())' se vuoi collegare il backend al frontend
+• GET /blogPosts → ritorna una lista di blog post
+• GET /blogPosts /123 → ritorna un singolo blog post
+• POST /blogPosts → crea un nuovo blog post
+• PUT /blogPosts /123 → modifica il blog post con l'id associato
+• DELETE /blogPosts /123 → cancella il blog post con l'id
+
+• Fare la POST di un articolo dal form di aggiunta articolo (Front)
+• Fare la fetch degli articoli presenti nel database e visualizzarli nella homepage (Front)
+• GET /authors/:id/blogPosts/ → ricevi tutti i blog post di uno specifico autore dal (da non fare)
+corrispondente ID
+• GET /blogPosts?title=whatever → filtra i blog post e ricevi l'unico che corrisponda alla condizione di ricerca (es.: titolo contiene "whatever")
+Aggiungi la funzionalità di ricerca dei post nel frontend (Front)
+
+IMMAGINI e MAIL
+• Il backend dovrebbe includere queste nuove routes:
+• - PATCH /authors/:authorld/avatar, carica un'immagine per l'autore specificato e salva l'URL
+creata da cloudinary nel database.
+• - PATCH /blogPosts/:blogPostld/cover, carica un'immagine per il post specificato dall'id. Salva
+'URL creato da Cloudinary nel post corrispondente.
+• EXTRA (facoltativo!): Invia un email al'autore quando pubblica un nuovo blog poste quando un nuovo autore si registra sulla pagina
+
+COMMENTI
+• Aggiungiamo al nostro backend la possibilità di aggiungere commenti agli articoli. Il modo migliore per unire i commenti ai post in questo caso è l'embedding.
+• Implementa gli endpoint specificati nella prossima
+• - GET /blogPosts/:id/comments → ritorna tutti i commenti di uno specifico post
+• - GET /blogPosts/:id/comments/:commentld ritorna un commento specifico di un post
+specifico
+• - POST /blogPosts/:id → aggiungi un nuovo commento ad un post specifico
+• - PUT /blogPosts/:id/comment/:commentld → cambia un commento di un post specifico
+• - DELETE /blogPosts/:id/comment/:commentld=elimina un commento specifico da un post

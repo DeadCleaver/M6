@@ -3,13 +3,15 @@ import { Container, Image } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import BlogAuthor from "../../components/blog/blog-author/BlogAuthor";
 import BlogLike from "../../components/likes/BlogLike";
-import posts from "../../data/posts.json";
+/* import posts from "../../data/posts.json";*/
 import "./styles.css";
-const Blog = props => {
+
+const Blog = ({posts}) => {
   const [blog, setBlog] = useState({});
   const [loading, setLoading] = useState(true);
   const params = useParams();
   const navigate = useNavigate();
+
   useEffect(() => {
     const { id } = params;
     const blog = posts.find(post => post._id.toString() === id);
@@ -37,7 +39,7 @@ const Blog = props => {
             </div>
             <div className="blog-details-info">
               <div>{blog.createdAt}</div>
-              <div>{`lettura da ${blog.readTime.value} ${blog.readTime.unit}`}</div>
+              <div>{`lettura da ${blog.readingtime.value} ${blog.readingtime.unit}`}</div>
               <div
                 style={{
                   marginTop: 20,
