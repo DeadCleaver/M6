@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import BlogItem from "../blog-item/BlogItem";
+/* import posts from "../../../data/posts.json"; */
+
+const BlogList = ({posts}) => {
 
 
-const BlogList = posts => {
 
   return (
     <Row>
