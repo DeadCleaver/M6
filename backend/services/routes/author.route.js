@@ -12,7 +12,6 @@ authorRoute.get("/", async (req, res, next) => {
       const authors = await Author.find();
       res.json(authors);
     } catch (err) {
-      // In caso di errore, procediamo
       next(err);
     }
   });

@@ -38,7 +38,21 @@ const blogPostSchema = new Schema(
         content: {
             type: String,
             required: true
-        }
+        },
+        comments: [{
+            user: {
+                type: String,
+                required: true
+            },
+            comment: {
+                type: String,
+                required: true
+            }, 
+            createdAt: {
+                type: Date, 
+                default: Date.now
+            }
+        }]
     },
      {
         collection: "blogposts"
