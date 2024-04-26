@@ -5,14 +5,15 @@ import BlogItem from "../blog-item/BlogItem";
 
 const BlogList = ({posts}) => {
 
-
-
   return (
     <Row>
       {posts.map((post, i) => (
         <Col
           key={`item-${i}`}
-          md={4}
+          xs={12}
+          md={6}
+          lg={4}
+          xl={3}
           style={{
             marginBottom: 50,
           }}

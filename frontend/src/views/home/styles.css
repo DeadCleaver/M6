@@ -3,9 +3,13 @@
 }
 
 .blog-main-title {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: bold;
-  margin-top: 50px;
-  margin-bottom: 50px;
+/* margin-top: 50px;*/  
+/* margin-bottom: 50px; */
   color: #00d66f;
+}
+
+.blog-main-container {
+  border-color: #00d66f !important;
 }

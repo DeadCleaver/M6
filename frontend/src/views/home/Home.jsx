@@ -3,11 +3,15 @@ import { Container } from "react-bootstrap";
 import BlogList from "../../components/blog/blog-list/BlogList";
 import "./styles.css";
 
-const Home = ({posts}) => {
+const Home = ({ posts }) => {
   return (
     <Container fluid="sm">
-      <h1 className="blog-main-title mb-3">Benvenuto sullo Strive Blog!</h1>
-      <BlogList posts={posts}/>
+      <Container fluid className="border border-success rounded blog-main-container mt-3 mb-5 shadow">
+        <h1 className="blog-main-title text-center my-3">
+          Benvenuto sullo Strive Blog!
+        </h1>
+      </Container>
+      <BlogList posts={posts} />
     </Container>
   );
 };
