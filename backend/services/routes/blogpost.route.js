@@ -74,6 +74,7 @@ blogpostRoute.patch("/:id/cover", uploadCover, async (req, res, next) => {
 
 /* COMMENTI */
 
+/* visualizza tutti i commenti di un post*/
 blogpostRoute.get("/:id/comments", async (req, res, next) => {
   try {
     let post = await Blogpost.findById(req.params.id);
@@ -84,8 +85,21 @@ blogpostRoute.get("/:id/comments", async (req, res, next) => {
   }
 });
 
+/* visualizza un commento specifico */
+blogpostRoute.get("/:id/comments/:commentId", async (req, res, next) => {
+  try {
+    let post = await Blogpost.findById(req.params.id);
+    
+    let comment = post.comments.id(req.params.commentId);
+
+    res.send(comment);
+  } catch (error) {
+    next(err);
+  }
+});
+
 /* aggiunge un commento */
-blogpostRoute.post("/:id", async (req, res, next) => {
+blogpostRoute.post("/:id/", async (req, res, next) => {
   try {
     // Trova il post tramite id
     let post = await Blogpost.findById(req.params.id);
@@ -104,6 +118,60 @@ blogpostRoute.post("/:id", async (req, res, next) => {
     next(err);
   }
 });
+
+/* modifica un commento */
+blogpostRoute.put("/:id/comments/:commentId", async (req, res, next) => {
+  try {
+    let post = await Blogpost.findById(req.params.id);
+    if (!post) {
+      return res.status(404).send("Post non trovato");
+    }
+    
+    let singleComment = post.comments.id(req.params.commentId);
+    if (!singleComment) {
+      return res.status(404).send("Commento non trovato");
+    }
+
+    // Modifica il commento specificato con i nuovi dati
+    singleComment.user = req.body.user;
+    singleComment.comment = req.body.comment;
+    
+    // Salva il post con il commento modificato
+    await post.save();
+    
+    res.send(singleComment);
+  } catch (err) {
+    next(err);
+  }
+});
+
+blogpostRoute.delete("/:id/comments/:commentId", async (req, res, next) => {
+  try {
+    let post = await Blogpost.findById(req.params.id);
+    if (!post) {
+      return res.status(404).send("Post non trovato");
+    }
+    
+    let singleComment = post.comments.id(req.params.commentId);
+    if (!singleComment) {
+      return res.status(404).send("Commento non trovato");
+    }
+
+    // Elimina il commento
+    singleComment.deleteOne();
+    
+    // Salva il post con il commento modificato
+    await post.save();
+    
+    res.status(204).send();
+    res.send(post);
+  } catch (err) {
+    next(err);
+  }
+});
+
+/* modifica un commento */
+
 
 /* SCRIPT PER AGGIORNARE I VECCHI BLOGPOSTS */
 /* blogpostRoute.get("/update", async (req, res, next) => {

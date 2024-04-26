@@ -1,6 +1,6 @@
 • GET /authors → ritorna la lista degli autori
 • GET /authors/123 → ritorna il singolo autore
-• POST /authors → crea un nuovo
+• POST /authors → crea un nuovo autore
 • PUT /authors/123 → modifica l'autore con l'id associato
 • DELETE /authors/123 → cancella l'autore con l'id associato
 • Connessione del backend al frontend
@@ -47,53 +47,14 @@ specifico
 • - PUT /blogPosts/:id/comment/:commentld → cambia un commento di un post specifico
 • - DELETE /blogPosts/:id/comment/:commentld=elimina un commento specifico da un post
 
-[
-    {
-        "readingtime": {
-            "value": 5,
-            "unit": "minutes"
-        },
-        "author": {
-            "name": "Andrea Montefiori",
-            "avatar": "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"
-        },
-        "_id": "661a5730441c1fb219ac67d3",
-        "category": "sci-fi",
-        "title": "How martians would despise Elon Musk conquest plan",
-        "cover": "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        "__v": 0
-    },
-    {
-        "readingtime": {
-            "value": 10,
-            "unit": "minutes"
-        },
-        "author": {
-            "name": "Mad Max",
-            "avatar": "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"
-        },
-        "_id": "661a5769441c1fb219ac67d6",
-        "category": "economics",
-        "title": "How Capitalism will kill us all",
-        "cover": "https://res.cloudinary.com/darxnp72n/image/upload/v1713622155/covers/u3irqemt1pfy5cpwbvn6.jpg",
-        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        "__v": 0
-    },
-    {
-        "readingtime": {
-            "value": 16,
-            "unit": "minutes"
-        },
-        "author": {
-            "name": "Norah Jones",
-            "avatar": "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg"
-        },
-        "_id": "661a59f1b3d2ced2603dd315",
-        "category": "music",
-        "title": "Music will save us all from Hell",
-        "cover": "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
-        "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        "__v": 0
-    }
-]
+AUTH TOKEN
+• Aggiungi la Token Based Authentication al tuo progetto precedente
+• Tutti gli endpoint (tranne /login) devono essere accessibili solo tramite token
+• Collega il tuo API al frontend (allegato):
+• Crea le pagine di registrazione&login per il progetto
+• Dopo un login effettuato con successo, memorizza il token di accesso nel localStorage e redireziona l'utente alla homepage
+• Usa il token ovunque sia necessario
+• Inserisci gli endpoint che troverai nella prossima slide:
+• POST /login → restituisce token di accesso
+• GET /me → restituisce l'utente collegato al token di accesso
+• modifica POST /authors → deve creare un nuovo utente valido
