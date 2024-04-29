@@ -47,6 +47,10 @@ function App() {
     getAuthors();
   }, []);
 
+  useEffect(() => {
+    getPosts();
+  }, [posts]);
+
 
   return (
     <Router>
