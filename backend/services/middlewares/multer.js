@@ -11,17 +11,6 @@ cloudinary.config({
     api_secret: process.env.CLOUD_API_SECRET
 })
 
-/* const options = {
-    storage: new CloudinaryStorage({
-        cloudinary, 
-        params: {
-            folder: "avatars",
-        },
-    }),
-};
-
-export default multer(options).single("avatar"); */
-
 const avatarUploadOpts = {
     storage: new CloudinaryStorage({
         cloudinary, 

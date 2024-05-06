@@ -69,7 +69,7 @@ export default function NewAuthor({ authors, getAuthors }) {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to add author");
+        throw new Error("Registrazione fallita, riprova");
       }
 
       /* aggiunge l'immagine dell'autore, con una funzione a parte SE un file è stato selezionato */
@@ -86,7 +86,7 @@ export default function NewAuthor({ authors, getAuthors }) {
 
       setShow(false);
     } catch (error) {
-      alert("Error adding comment:", error);
+      alert("Registrazione fallita. Errore: ", error);
     }
   };
 

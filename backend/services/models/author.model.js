@@ -13,6 +13,10 @@ const authorSchema = new Schema(
     email: {
       type: String,
       required: true,
+    }, 
+    password: { // campo della password inserito per auth
+      type: String,
+      required: true
     },
     birthdate: {
       type: Date,

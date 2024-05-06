@@ -1,10 +1,19 @@
 import { Router } from "express";
 import Author from "../models/author.model.js";
-/* import cloudinaryMiddleware from "../middlewares/multer.js" 
- */
 import { uploadAvatar } from "../middlewares/multer.js";
+import { authMiddleware } from "../auth/index.js";
 
 export const authorRoute = Router();
+
+/* chiamata su /me per ricevere i dati dell'autore */
+authorRoute.get("/me", authMiddleware, async (req, res, next) => {
+  try {
+    let author = await Author.findById(req.user.id)
+    res.send(author)
+  } catch (error) {
+    next(error)
+  }
+})
 
 /* chiamata get di tutti gli autori */
 authorRoute.get("/", async (req, res, next) => {

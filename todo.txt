@@ -58,3 +58,4 @@ AUTH TOKEN
 • POST /login → restituisce token di accesso
 • GET /me → restituisce l'utente collegato al token di accesso
 • modifica POST /authors → deve creare un nuovo utente valido
+

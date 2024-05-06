@@ -1,7 +1,8 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 import BlogList from "../../components/blog/blog-list/BlogList";
 import "./styles.css";
+import { Link } from "react-router-dom";
 
 const Home = ({ posts }) => {
   return (
@@ -10,6 +11,17 @@ const Home = ({ posts }) => {
         <h1 className="blog-main-title text-center my-3">
           Benvenuto sullo Strive Blog!
         </h1>
+        <Container className="my-3 text-center">
+          <p className="m-1">Non sei registrato?</p>
+        <Button
+            as={Link}
+            to="/register"
+            className="bg-dark text-center"
+            size="sm"
+          >
+            Registrati!
+          </Button>
+        </Container>
       </Container>
       <BlogList posts={posts} />
     </Container>

@@ -6,6 +6,7 @@ import Blog from "./views/blog/Blog";
 import NewBlogPost from "./views/new/New";
 import NewAuthor from "./views/newauthor/NewAuthor";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Register from "./views/register/Register";
 
 function App() {
 
@@ -47,9 +48,10 @@ function App() {
     getAuthors();
   }, []);
 
-  useEffect(() => {
+  // questa chiamata continua a cercare i posts
+ /*  useEffect(() => {
     getPosts();
-  }, [posts]);
+  }, [posts]); */
 
 
   return (
@@ -57,6 +59,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" exact element={<Home posts={posts}/>} />
+        <Route path="/register" element={<Register />}/> 
         <Route path="/blog/:id" element={<Blog posts={posts}/>} />
         <Route path="/new" element={<NewBlogPost authors={authors}/>} />
         <Route path="/newauthor" element={<NewAuthor authors={authors} getAuthors={getAuthors}/>} />

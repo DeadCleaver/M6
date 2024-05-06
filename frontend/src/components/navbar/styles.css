@@ -17,3 +17,13 @@
   justify-content: space-between;
   text-decoration: none;
 }
+
+.blog-navbar-avatar {
+  width: 40px;
+}
+
+.blog-navbar-avatar-button,  .blog-navbar-avatar-button.show {
+  background-color: transparent;
+  border-color: transparent;
+}
+
