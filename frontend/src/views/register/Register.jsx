@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 
 const Register = () => {
-  const authorApi = "http://localhost:3001/authors";
+  const authorApi = `${process.env.REACT_APP_API}authors`;
   const registerApi = "http://localhost:3001/auth/register";
 
   const [name, setName] = useState("");
@@ -40,7 +40,7 @@ const Register = () => {
         await uploadAvatar(_id, userAvatar);
       }
 
-      window.location.href = "/newauthor";
+      window.location.href = "/";
     } else {
       // Gestisci il caso in cui la registrazione fallisce
       console.error("Registration failed");
@@ -117,7 +117,6 @@ const Register = () => {
         <Form.Group controlId="formUserPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
-            type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

@@ -2,6 +2,7 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import Author from "../models/author.model.js";
 import { generateJWT } from "../auth/index.js";
+import passport from "passport";
 
 export const authRoute = Router();
 
@@ -50,3 +51,21 @@ authRoute.post("/login", async (req, res, next) => {
   }
 });
 
+/* GOOGLE LOGIN */
+
+authRoute.get(
+  "/googleLogin",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+authRoute.get(
+  "/callback",
+  passport.authenticate("google", { session: false }),
+  (req, res, next) => {
+    try {
+      res.redirect(`http://localhost:3000/?token=${req.user.token}`); // reinderizzare a home?
+    } catch (err) {
+      next(err);
+    }
+  }
+);

@@ -26,7 +26,7 @@ authorRoute.get("/", async (req, res, next) => {
   });
 
 /* chiamata post di un autore */
-  authorRoute.post("/", async (req, res, next) => {
+  authorRoute.post("/", authMiddleware, async (req, res, next) => {
     try {
       let author = await Author.create(req.body);
       res.send(author).status(400);
@@ -36,7 +36,7 @@ authorRoute.get("/", async (req, res, next) => {
   });
 
   /* chiamata get di un singolo autore */
-  authorRoute.get("/:id", async (req, res, next) => {
+  authorRoute.get("/:id", authMiddleware, async (req, res, next) => {
     try {
       let author = await Author.findById(req.params.id);
       res.send(author);
@@ -46,7 +46,7 @@ authorRoute.get("/", async (req, res, next) => {
   });
 
 /* richiesta di delete di un singolo autore */
-  authorRoute.delete("/:id", async (req, res, next) => {
+  authorRoute.delete("/:id", authMiddleware, async (req, res, next) => {
     try {
       await Author.deleteOne({
         _id: req.params.id,
@@ -58,7 +58,7 @@ authorRoute.get("/", async (req, res, next) => {
   });
 
   /* richiesta PUT di un singolo autore */
-  authorRoute.put("/:id", async (req, res, next) => {
+  authorRoute.put("/:id", authMiddleware, async (req, res, next) => {
     try {
       let author = await Author.findByIdAndUpdate(req.params.id, req.body, {
         new: true, 

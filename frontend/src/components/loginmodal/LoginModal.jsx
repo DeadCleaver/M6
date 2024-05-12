@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, Stack } from "react-bootstrap";
+import GoogleLogin from "../googlelogin/GoogleLogin";
 
-const LoginModal = ({ show, setShow }) => {
+const LoginModal = ({ show, setShow, userLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -11,10 +12,10 @@ const LoginModal = ({ show, setShow }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost:3001/auth/login', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3001/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
       });
@@ -23,22 +24,20 @@ const LoginModal = ({ show, setShow }) => {
         const data = await response.json();
         const { user, token } = data;
 
-        localStorage.setItem('token', token);
+        localStorage.setItem("token", token);
 
+        userLogin();
         toggleShowLogin();
 
-        // Fai qualcosa con i dati dell'utente, ad esempio aggiornare lo stato dell'applicazione
-        console.log('Login eseguito come: ', user);
+        console.log("Login eseguito come: ", user);
         alert("Login eseguito correttamente");
       } else {
-        // Gestisci il caso in cui la richiesta di login fallisce
-        console.error('Login fallito');
+        console.error("Login fallito");
       }
     } catch (error) {
-      console.error('Errore nel login:', error);
+      console.error("Errore nel login:", error);
     }
-  }
-
+  };
 
   const toggleShowLogin = () => {
     setShow(!show);
@@ -63,12 +62,17 @@ const LoginModal = ({ show, setShow }) => {
           <Form.Group controlId="form-user-password">
             <Form.Label>Password</Form.Label>
             <Form.Control
+              type="password"
               placeholder="Inserisci la password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
         </Form>
+        <hr />
+        <div className="d-flex justify-content-center">
+          <GoogleLogin />
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={toggleShowLogin}>

@@ -10,7 +10,9 @@ import Register from "./views/register/Register";
 
 function App() {
 
-  const apiUrl = "http://localhost:3001/";
+/*   const apiUrl = "http://localhost:3001/"; */  
+  const apiUrl = process.env.REACT_APP_API;
+
   const [posts, setPosts] = useState([]);
   const [authors, setAuthors] = useState([]);
 
@@ -21,7 +23,6 @@ function App() {
           throw new Error("Failed loading posts");
         }
         const blogPosts = await response.json();
-        console.log(blogPosts);
         setPosts(blogPosts);
       } catch (error) {
         alert(`Error fetching comments: ` + error);
@@ -48,10 +49,6 @@ function App() {
     getAuthors();
   }, []);
 
-  // questa chiamata continua a cercare i posts
- /*  useEffect(() => {
-    getPosts();
-  }, [posts]); */
 
 
   return (
@@ -61,7 +58,7 @@ function App() {
         <Route path="/" exact element={<Home posts={posts}/>} />
         <Route path="/register" element={<Register />}/> 
         <Route path="/blog/:id" element={<Blog posts={posts}/>} />
-        <Route path="/new" element={<NewBlogPost authors={authors}/>} />
+        <Route path="/new" element={<NewBlogPost authors={authors} getPosts={getPosts}/>} />
         <Route path="/newauthor" element={<NewAuthor authors={authors} getAuthors={getAuthors}/>} />
       </Routes>
       <Footer />

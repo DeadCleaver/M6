@@ -3,6 +3,7 @@ import { Container, Button } from "react-bootstrap";
 import BlogList from "../../components/blog/blog-list/BlogList";
 import "./styles.css";
 import { Link } from "react-router-dom";
+import GoogleLogin from "../../components/googlelogin/GoogleLogin";
 
 const Home = ({ posts }) => {
   return (
@@ -21,6 +22,8 @@ const Home = ({ posts }) => {
           >
             Registrati!
           </Button>
+        </Container>
+        <Container>
         </Container>
       </Container>
       <BlogList posts={posts} />

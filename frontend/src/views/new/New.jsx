@@ -6,16 +6,20 @@ import "./styles.css";
 import { convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 
-const NewBlogPost = ({ authors }) => {
+const NewBlogPost = ({ authors, getPosts }) => {
   const [postCategory, setPostCategory] = useState("");
   const [postTitle, setPostTitle] = useState("");
   const [postCover, setPostCover] = useState(null); //la cover non è obbligatoria
   const [readTime, setReadTime] = useState(null);
   const [text, setText] = useState("");
-  const [authorUser, setAuthorUser] = useState("");
-  const [authorAvatar, setAuthorAvatar] = useState("");
+  const [authorId, setAuthorId] = useState("");
 
-  const postsUrl = "http://localhost:3001/blogPosts/";
+
+/*   const postsUrl = "http://localhost:3001/blogPosts/"; */
+const postsUrl = `${process.env.REACT_APP_API}blogPosts/`;
+
+  const token = localStorage.getItem('token');
+
 
   const categories = [
     "Sci-fi",
@@ -27,28 +31,42 @@ const NewBlogPost = ({ authors }) => {
     "Astrology",
   ];
 
+  useEffect(() =>{
+    getAuthorData();
+  }, []);
+
+  /* recupera l'id dell'autore */
+  const getAuthorData = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API}/author/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`, 
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch author data");
+      }
+      const { _id } = await response.json();
+      setAuthorId(_id); 
+    } catch (error) {
+      console.error("Error fetching author data:", error);
+    }
+  };
+
   const handleChange = useCallback((value) => {
     setText(draftToHtml(value));
     console.log(text);
     // console.log(convertToRaw(value.getCurrentContent()))
   });
 
-  const handleAuthorChange = (authorId) => {
-    const currentAuthor = authors.find((author) => author._id === authorId);
-    setAuthorUser(currentAuthor.name);
-    setAuthorAvatar(currentAuthor.avatar);
-    console.log(authorUser);
-    console.log(authorAvatar);
-  };
-
-
    const createPost = async () => {
 
     try {
-      const response = await fetch(`${postsUrl}`, {
+      const response = await fetch(postsUrl, {
         method: `POST`,
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           category: postCategory,
@@ -57,16 +75,13 @@ const NewBlogPost = ({ authors }) => {
             value: readTime,
             unit: "minutes",
           },
-          author: {
-            name: authorUser,
-            avatar: authorAvatar,
-          },
+          author: authorId, // Invia solo l'ID dell'autore anziché l'intero oggetto autore
           content: text,
         }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to add author");
+        throw new Error("Failed to add post");
       } 
 
       /* aggiunge l'immagine del post, con una funzione a parte SE un file è stato selezionato */
@@ -78,8 +93,8 @@ const NewBlogPost = ({ authors }) => {
       setPostCategory("");
       setPostTitle("");
       setReadTime("");
-      setAuthorUser("");
-      setAuthorAvatar("");
+
+      getPosts();
 
     } catch (error) {
       alert("Error adding post:", error);
@@ -94,6 +109,9 @@ const NewBlogPost = ({ authors }) => {
 
       const response = await fetch(`${postsUrl}/${postId}/cover`, {
         method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: coverData,
       });
 
@@ -151,21 +169,6 @@ const NewBlogPost = ({ authors }) => {
               onChange={(e) => setPostCover(e.target.files[0])}
             />
           </InputGroup>
-        </Form.Group>
-
-        <Form.Group controlId="blog-author" className="mt-3">
-          <Form.Label>Autore</Form.Label>
-          <Form.Control
-            size="sm"
-            as="select"
-            onChange={(e) => handleAuthorChange(e.target.value)}
-          >
-            {authors.map((author) => (
-              <option key={author._id} value={author._id}>
-                {author.name} {author.lastname} - {author.email}
-              </option>
-            ))}
-          </Form.Control>
         </Form.Group>
 
         <Form.Group controlId="blog-content" className="mt-3">

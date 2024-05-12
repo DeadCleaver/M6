@@ -1,13 +1,15 @@
 import { Router } from "express";
 import Blogpost from "../models/blogpost.model.js";
 import { uploadCover } from "../middlewares/multer.js";
+import { authMiddleware } from "../auth/index.js";
+import { Types } from "mongoose";
 
 export const blogpostRoute = Router();
 
 /* chiamata get di tutti i post */
 blogpostRoute.get("/", async (req, res, next) => {
   try {
-    const posts = await Blogpost.find();
+    const posts = await Blogpost.find().populate(`author`);
     res.json(posts);
   } catch (err) {
     next(err);
@@ -15,9 +17,12 @@ blogpostRoute.get("/", async (req, res, next) => {
 });
 
 /* chiamata POST di un blogpost */
-blogpostRoute.post("/", async (req, res, next) => {
+blogpostRoute.post("/", authMiddleware, async (req, res, next) => {
   try {
-    let post = await Blogpost.create(req.body);
+    let post = await Blogpost.create({
+      ...req.body,
+      author: req.user.id
+    });
     res.send(post).status(400);
   } catch (err) {
     next(err);
@@ -25,7 +30,7 @@ blogpostRoute.post("/", async (req, res, next) => {
 });
 
 /* chiamata get di un singolo blogpost */
-blogpostRoute.get("/:id", async (req, res, next) => {
+blogpostRoute.get("/:id", authMiddleware, async (req, res, next) => {
   try {
     let post = await Blogpost.findById(req.params.id);
     res.send(post);
@@ -35,7 +40,7 @@ blogpostRoute.get("/:id", async (req, res, next) => {
 });
 
 /* Chiamata delete di un blogpost */
-blogpostRoute.delete("/:id", async (req, res, next) => {
+blogpostRoute.delete("/:id", authMiddleware, async (req, res, next) => {
   try {
     await Blogpost.deleteOne({
       _id: req.params.id,
@@ -47,7 +52,7 @@ blogpostRoute.delete("/:id", async (req, res, next) => {
 });
 
 /* chiamata put di un blogpost */
-blogpostRoute.put("/:id", async (req, res, next) => {
+blogpostRoute.put("/:id", authMiddleware, async (req, res, next) => {
   try {
     let post = await Blogpost.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -77,50 +82,38 @@ blogpostRoute.patch("/:id/cover", uploadCover, async (req, res, next) => {
 /* visualizza tutti i commenti di un post*/
 blogpostRoute.get("/:id/comments", async (req, res, next) => {
   try {
-    let post = await Blogpost.findById(req.params.id);
-    let postComments = post.comments;
+    let postComments = await Blogpost.findById(req.params.id).select(`comments`).populate(`comments.user`);
     res.send(postComments);
   } catch (error) {
     next(err);
   }
 });
 
-/* visualizza un commento specifico */
-blogpostRoute.get("/:id/comments/:commentId", async (req, res, next) => {
-  try {
-    let post = await Blogpost.findById(req.params.id);
-    
-    let comment = post.comments.id(req.params.commentId);
-
-    res.send(comment);
-  } catch (error) {
-    next(err);
-  }
-});
-
 /* aggiunge un commento */
-blogpostRoute.post("/:id/", async (req, res, next) => {
+
+blogpostRoute.post("/:id/", authMiddleware, async (req, res, next) => {
   try {
-    // Trova il post tramite id
-    let post = await Blogpost.findById(req.params.id);
-    // check che il post ci sia
+    const post = await Blogpost.findById(req.params.id);
+
     if (!post) {
       return res.status(404).send("Post non trovato");
     }
-    // aggiunge il commento all'array
-    post.comments.push(req.body);
 
-    // salva il post con il nuovo commento
+    post.comments.push({
+      user: req.user.id,
+      comment: req.body.comment,
+    });
+
     await post.save();
 
-    res.status(201).send(post.comments);
+    res.status(201).send(post);
   } catch (err) {
     next(err);
   }
 });
 
 /* modifica un commento */
-blogpostRoute.put("/:id/comments/:commentId", async (req, res, next) => {
+blogpostRoute.put("/:id/comments/:commentId", authMiddleware, async (req, res, next) => {
   try {
     let post = await Blogpost.findById(req.params.id);
     if (!post) {
@@ -145,7 +138,7 @@ blogpostRoute.put("/:id/comments/:commentId", async (req, res, next) => {
   }
 });
 
-blogpostRoute.delete("/:id/comments/:commentId", async (req, res, next) => {
+blogpostRoute.delete("/:id/comments/:commentId", authMiddleware, async (req, res, next) => {
   try {
     let post = await Blogpost.findById(req.params.id);
     if (!post) {
@@ -170,6 +163,19 @@ blogpostRoute.delete("/:id/comments/:commentId", async (req, res, next) => {
   }
 });
 
+/* visualizza un commento specifico */
+blogpostRoute.get("/:id/comments/:commentId", async (req, res, next) => {
+  try {
+    let post = await Blogpost.findById(req.params.id);
+    
+    let comment = post.comments.id(req.params.commentId);
+
+    res.send(comment);
+  } catch (error) {
+    next(err);
+  }
+});
+
 /* modifica un commento */
 
 
@@ -186,6 +192,27 @@ blogpostRoute.delete("/:id/comments/:commentId", async (req, res, next) => {
     res.send("update eseguito");
   } catch(err) {
     console.error(err);
+    next(err);
+  }
+}); */
+
+
+/* vecchio add comment */
+/* blogpostRoute.post("/:id/", async (req, res, next) => { 
+  try {
+    // Trova il post tramite id
+    let post = await Blogpost.findById(req.params.id);
+    // check che il post ci sia
+    if (!post) {
+      return res.status(404).send("Post non trovato");
+    }
+    // aggiunge il commento all'array
+    post.comments.push({ user: req.body.user, comment: req.body.comment });
+
+    await post.save();
+
+    res.status(201).send(post.comments);
+  } catch (err) {
     next(err);
   }
 }); */

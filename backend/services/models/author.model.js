@@ -13,19 +13,24 @@ const authorSchema = new Schema(
     email: {
       type: String,
       required: true,
+      unique: true
     }, 
     password: { // campo della password inserito per auth
       type: String,
-      required: true
+      required: false
     },
     birthdate: {
       type: Date,
-      required: true,
+      required: false,
     },
     avatar: {
       type: String,
       required: false,
     },
+    googleid: {
+      type: String,
+      required: false
+    }
   },
   {
     collection: "authors",

@@ -26,14 +26,8 @@ const blogPostSchema = new Schema(
 
         },
         author: {
-            name: {
-                type: String,
-                required: true
-            },
-            avatar: {
-                type: String,
-                required: true
-            }
+            type: Schema.Types.ObjectId, 
+            ref: 'Author' 
         },
         content: {
             type: String,
@@ -41,7 +35,8 @@ const blogPostSchema = new Schema(
         },
         comments: [{
             user: {
-                type: String,
+                type: Schema.Types.ObjectId, 
+                ref: 'Author',
                 required: true
             },
             comment: {

@@ -7,14 +7,20 @@ import { authRoute } from "./services/routes/auth.route.js";
 import cors from "cors";
 import { emailsender } from "./services/middlewares/emailsender.js";
 import { authMiddleware } from "./services/auth/index.js";
+import passport from "passport";
+import googleStrategy from "./services/auth/passport.js";
+
 
 config();
 
 const app = express() //creo l'istanza del server
 const port = process.env.PORT || 3001; //inizializzo la porta
+
 app.use(cors());
 
 app.use(express.json()); //abilitiamo l'uso dei json nelle richies
+
+passport.use("google", googleStrategy);
 
 app.use("/auth", authRoute);
 app.use("/blogPosts", blogpostRoute);
