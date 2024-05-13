@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./views/register/Register";
 import UserContextProvider from "./context/UserContextProvider";
 import ProtectedAuthRoute from "./context/ProtectedAuthRoute";
+import LoginSpinner from "./components/loginmodal/LoginSpinner";
 
 function App() {
   /*   const apiUrl = "http://localhost:3001/"; */
@@ -58,6 +59,8 @@ function App() {
           <Route path="/" exact element={<Home posts={posts} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/blog/:id" element={<Blog posts={posts} />} />
+          
+          <Route path="/verifylogin" element={<LoginSpinner />} />
 
           <Route element={<ProtectedAuthRoute />}>
             <Route

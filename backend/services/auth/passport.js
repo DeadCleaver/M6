@@ -22,7 +22,7 @@ const googleStrategy = new GoogleStrategy(
 
       if (foundAuthor) { // se l'utente esiste creiamo il token
 
-        /* const token = await createAccessToken({ //da sostituire con createJWT
+        /* const token = await createAccessToken({ //questa funzione non esiste
                 _id_: user._id
             }) */
 

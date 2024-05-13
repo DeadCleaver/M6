@@ -63,7 +63,7 @@ authRoute.get(
   passport.authenticate("google", { session: false }),
   (req, res, next) => {
     try {
-      res.redirect(`http://localhost:3000/?token=${req.user.token}`); // reinderizzare a home?
+      res.redirect(`http://localhost:3000/verifylogin?token=${req.user.token}`); // reinderizzare a home?
     } catch (err) {
       next(err);
     }
