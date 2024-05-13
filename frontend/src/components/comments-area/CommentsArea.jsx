@@ -118,9 +118,10 @@ const modifyComment = async (commentId, editedComment) => {
           <SingleComment key={index} comment={comment} userDataId={loggedUser ? loggedUser._id : null} deleteComment={deleteComment} modifyComment={modifyComment} />
         ))}
       </div>
-      <div>
-        <AddComment blogId={blogId} getComments={getComments}/>
-      </div>
+      {token  &&
+            <div>
+            <AddComment blogId={blogId} getComments={getComments}/>
+          </div>}
     </Container>
   );
 }

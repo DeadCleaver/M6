@@ -77,6 +77,7 @@ const postsUrl = `${process.env.REACT_APP_API}blogPosts/`;
           },
           author: authorId, // Invia solo l'ID dell'autore anziché l'intero oggetto autore
           content: text,
+          cover: `https://media.foundit.in/career-advice/wp-content/uploads/2021/08/1563859193.jpg`
         }),
       });
 

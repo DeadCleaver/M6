@@ -8,7 +8,7 @@ config();
 const options = {
   clientID: process.env.G_CLIENT_ID,
   clientSecret: process.env.G_CLIENT_SECRET,
-  callbackUrl: process.env.G_CB,
+  callbackURL: process.env.G_CB,
 };
 
 const googleStrategy = new GoogleStrategy(

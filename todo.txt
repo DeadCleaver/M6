@@ -77,3 +77,4 @@ package.json
 • Ricorda di usare le variabili d'ambiente, sia in locale che in remoto
 • Configura CORS in modo da far dialogare correttamente il FE con il BE
 • Impostare Cl=false come variabile d'ambiente su Vercel permetterà il build di applicazioni React anche in caso di warnings all'interno del codice
+
