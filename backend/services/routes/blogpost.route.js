@@ -176,7 +176,6 @@ blogpostRoute.get("/:id/comments/:commentId", async (req, res, next) => {
   }
 });
 
-/* modifica un commento */
 
 
 /* SCRIPT PER AGGIORNARE I VECCHI BLOGPOSTS */

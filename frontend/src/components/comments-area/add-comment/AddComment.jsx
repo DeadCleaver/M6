@@ -42,7 +42,7 @@ export default function AddComment({blogId, getComments}) {
 
   return (
     <Container>
-        <div>Scrivi un Commento</div>
+        <div className="my-2 fs-6 text-center">Scrivi un Commento</div>
       <Form onSubmit={submitComment}>
         <Form.Group className="mb-3">
           <Form.Control
