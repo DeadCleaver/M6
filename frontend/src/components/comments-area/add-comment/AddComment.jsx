@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Container, Form, Button } from "react-bootstrap";
+import { UserContext } from "../../../context/UserContextProvider";
 
 export default function AddComment({blogId, getComments}) {
 
   const [newComment, setNewComment] = useState("");
   const blogApi = process.env.REACT_APP_API;
-  const token = localStorage.getItem('token');
+  /* const token = localStorage.getItem('token'); */
+  const { userToken } = useContext(UserContext);
+
 
 
   const submitComment = async (event) => {
@@ -16,7 +19,7 @@ export default function AddComment({blogId, getComments}) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${userToken}`,
           },
           body: JSON.stringify({
             comment: newComment

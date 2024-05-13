@@ -1,28 +1,30 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Container, Card } from "react-bootstrap";
-import "./CommentsArea.css";
 import SingleComment from "./single-comment/SingleComment";
 import { useEffect, useState } from "react";
 import AddComment from "./add-comment/AddComment";
+import { UserContext } from "../../context/UserContextProvider";
+import "./CommentsArea.css";
 
 export default function CommentsArea({ blogId }) {
 
   const [comments, setComments] = useState([]);
   const api = process.env.REACT_APP_API;
-  const token = localStorage.getItem('token');
+  /* const token = localStorage.getItem('token'); */
+  const { userToken } = useContext(UserContext);
   const [loggedUser, setLoggedUser] = useState(null);
 
 
   useEffect(() => {
     getComments();
 
-    if (token) {
+    if (userToken) {
       getUserData();
     } else {
       setLoggedUser(null);
     }
 
-  }, []);
+  }, [userToken]);
 
   const getComments = async () => {
     try {
@@ -42,7 +44,7 @@ export default function CommentsArea({ blogId }) {
       const response = await fetch(`${api}authors/me`, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${userToken}`,
         },
       });
   
@@ -66,7 +68,7 @@ export default function CommentsArea({ blogId }) {
       const response = await fetch(`${api}blogPosts/${blogId}/comments/${commentId}`, {
         method: "DELETE",
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${userToken}`,
         },
       });
 
@@ -87,7 +89,7 @@ const modifyComment = async (commentId, editedComment) => {
         method: `PUT`,  
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${userToken}`
         },
         body: JSON.stringify({
           comment: editedComment,
@@ -118,7 +120,7 @@ const modifyComment = async (commentId, editedComment) => {
           <SingleComment key={index} comment={comment} userDataId={loggedUser ? loggedUser._id : null} deleteComment={deleteComment} modifyComment={modifyComment} />
         ))}
       </div>
-      {token  &&
+      {userToken  &&
             <div>
             <AddComment blogId={blogId} getComments={getComments}/>
           </div>}

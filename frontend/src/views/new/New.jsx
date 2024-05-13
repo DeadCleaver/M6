@@ -1,10 +1,13 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { Button, Container, Form, InputGroup, Input } from "react-bootstrap";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "./styles.css";
 import { convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import { UserContext } from "../../context/UserContextProvider";
+import { Navigate } from "react-router-dom";
+
 
 const NewBlogPost = ({ authors, getPosts }) => {
   const [postCategory, setPostCategory] = useState("");
@@ -16,10 +19,11 @@ const NewBlogPost = ({ authors, getPosts }) => {
 
 
 /*   const postsUrl = "http://localhost:3001/blogPosts/"; */
-const postsUrl = `${process.env.REACT_APP_API}blogPosts/`;
+/* const postsUrl = `${process.env.REACT_APP_API}blogPosts/`;*/
 
-  const token = localStorage.getItem('token');
+  /* const token = localStorage.getItem('token'); */
 
+  const { userToken } = useContext(UserContext);
 
   const categories = [
     "Sci-fi",
@@ -40,7 +44,7 @@ const postsUrl = `${process.env.REACT_APP_API}blogPosts/`;
     try {
       const response = await fetch(`${process.env.REACT_APP_API}/author/me`, {
         headers: {
-          Authorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${userToken}`, 
         },
       });
       if (!response.ok) {
@@ -62,11 +66,11 @@ const postsUrl = `${process.env.REACT_APP_API}blogPosts/`;
    const createPost = async () => {
 
     try {
-      const response = await fetch(postsUrl, {
+      const response = await fetch(`${process.env.REACT_APP_API}blogPosts/`, {
         method: `POST`,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${userToken}`,
         },
         body: JSON.stringify({
           category: postCategory,
@@ -97,6 +101,7 @@ const postsUrl = `${process.env.REACT_APP_API}blogPosts/`;
 
       getPosts();
 
+      return <Navigate to="/" />;
     } catch (error) {
       alert("Error adding post:", error);
       console.log("Error adding post:", error)
@@ -108,10 +113,10 @@ const postsUrl = `${process.env.REACT_APP_API}blogPosts/`;
       const coverData = new FormData();
       coverData.append("cover", coverFile);
 
-      const response = await fetch(`${postsUrl}/${postId}/cover`, {
+      const response = await fetch(`${process.env.REACT_APP_API}blogPosts/${postId}/cover`, {
         method: "PATCH",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${userToken}`,
         },
         body: coverData,
       });

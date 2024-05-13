@@ -1,13 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Modal, Button, Form, Stack } from "react-bootstrap";
 import GoogleLogin from "../googlelogin/GoogleLogin";
+import { UserContext } from "../../context/UserContextProvider";
 
 const LoginModal = ({ show, setShow, userLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { setUserToken } = useContext(UserContext);
+
 
   useEffect(() => {
     setShow(show);
+  }, [show]);
+
+  useEffect(() => {
+    if (!show) {
+      setEmail("");
+      setPassword("");
+    }
   }, [show]);
 
   const handleLogin = async () => {
@@ -24,7 +34,9 @@ const LoginModal = ({ show, setShow, userLogin }) => {
         const data = await response.json();
         const { user, token } = data;
 
+        // salva il token sia nel local storage che nel context
         localStorage.setItem("token", token);
+        setUserToken(token)
 
         userLogin();
         toggleShowLogin();
