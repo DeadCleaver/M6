@@ -45,6 +45,7 @@ const LoginModal = ({ show, setShow, userLogin }) => {
         alert("Login eseguito correttamente");
       } else {
         console.error("Login fallito");
+        alert("Login Fallito")
       }
     } catch (error) {
       console.error("Errore nel login:", error);
